@@ -300,21 +300,14 @@ function renderSkills() {
 function updatePreview() {
     const data = getFormData();
     const accentColor = document.getElementById('accentColor').value;
+    const textColor = document.getElementById('textColor').value;
     const fontBody = document.getElementById('fontBody').value;
     const preview = document.getElementById('resume-preview');
 
-    // Apply key customization variables
+    // Apply key customization variables to root of preview
     preview.style.setProperty('--tpl-accent', accentColor);
+    preview.style.color = textColor;
     preview.style.fontFamily = fontBody;
-
-    // Some templates use the accent color directly in CSS that we need to override or map
-    // We'll rely on our specific template CSS, but we can also inject a dynamic style if needed
-    // For this implementation, we will apply the font and let CSS variables handle colors where possible
-    // However, since our CSS uses specific hex codes, we might need to inject inline styles or 
-    // update the specific elements.
-    // A better approach for this customized version is to set the specific elements' colors in JS
-    // OR update the CSS to use var(--tpl-accent). 
-    // Given the current CSS structure, we'll traverse and update common elements for the active preview.
 
     preview.className = `resume-page template-${currentTemplate}`;
 
@@ -327,11 +320,7 @@ function updatePreview() {
     }
 
     // Apply dynamic colors after rendering
-    applyDynamicColors(preview, accentColor);
-
-    // Update color value display
-    const colorDisplay = document.querySelector('.color-value');
-    if (colorDisplay) colorDisplay.textContent = accentColor;
+    applyDynamicColors(preview, accentColor, textColor);
 
     triggerSave();
 }
@@ -482,44 +471,59 @@ function renderClassicTemplate(data) {
         </div>`;
 }
 
-function applyDynamicColors(container, color) {
-    // Dynamic color application helper
-    // Validates if color is valid hex
-    if (!/^#[0-9A-F]{6}$/i.test(color)) return;
+function applyDynamicColors(container, accentColor, textColor) {
+    if (!/^#[0-9A-F]{6}$/i.test(accentColor)) return;
 
-    // Headings
-    container.querySelectorAll('.resume-tpl-name, .resume-tpl-section-title, .resume-tpl-entry-company').forEach(el => {
-        // Only override if the template is meant to change with accent
-        // For standard/modern templates, yes.
-        // For some strict themes, maybe we want to keep them fixed?
-        // User requested "all of the templates be editable".
-        el.style.color = color;
-        el.style.borderColor = color;
+    // 1. Text Color Application
+    // Apply to all basic text elements that aren't specific feature highlights
+    container.querySelectorAll('.resume-tpl-body, .resume-tpl-summary, .resume-tpl-entry-desc, .resume-tpl-entry-date, .resume-tpl-contact').forEach(el => {
+        el.style.color = textColor;
     });
 
-    // Backgrounds for badges/headers? 
-    // This is tricky as some use gradients. We'll stick to text elements validation for now.
-    // For fully custom backgrounds, we'd need more logic. 
-    // Let's at least update the skills badges
+    // 2. Accent Color Application (Headers, Titles, Badges)
+    container.querySelectorAll('.resume-tpl-name, .resume-tpl-section-title, .resume-tpl-entry-company, .resume-tpl-entry-role').forEach(el => {
+        el.style.color = accentColor;
+        el.style.borderColor = accentColor;
+    });
+
+    // 3. Backgrounds / Badges
     container.querySelectorAll('.resume-tpl-skill').forEach(el => {
-        el.style.borderColor = color;
-        el.style.color = color;
-        // make bg transparent version of color
-        // simplistic approach: 
-        el.style.backgroundColor = color + '15'; // 10% opacity
+        el.style.borderColor = accentColor;
+        el.style.color = accentColor;
+        el.style.backgroundColor = accentColor + '15'; // Low opacity bg
     });
 
-    // Sidebar backgrounds for compact/creative
-    container.querySelectorAll('.resume-tpl-sidebar, .resume-tpl-header').forEach(el => {
-        // Check if it has a background color set in CSS that isn't white
+    // 4. Heavy Backgrounds (Headers, Sidebars) - Determine if we should override
+    // We want to allow the "Template Color" (Accent) to take over the main theme areas
+    const heavyElements = container.querySelectorAll('.resume-tpl-header, .resume-tpl-sidebar, .resume-tpl-left-column');
+
+    heavyElements.forEach(el => {
         const style = window.getComputedStyle(el);
+        // If it has a background color (not transparent/white), override it with accent
+        // But be careful about text contrast.
         if (style.backgroundColor !== 'rgba(0, 0, 0, 0)' && style.backgroundColor !== 'rgb(255, 255, 255)') {
-            el.style.background = color;
-            // If background is dark, ensure text is white
-            // This is a naive check, but fine for this MVP
-            el.style.color = '#fff';
+            el.style.background = accentColor;
+
+            // Auto-contrast text for dark/light backgrounds
+            // Simple logic: if accent is dark, text white; if light, text black.
+            // Converting hex to RGB to check brightness
+            const r = parseInt(accentColor.substr(1, 2), 16);
+            const g = parseInt(accentColor.substr(3, 2), 16);
+            const b = parseInt(accentColor.substr(5, 2), 16);
+            const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+            const contrastColor = (yiq >= 128) ? '#000000' : '#ffffff';
+
+            el.style.color = contrastColor;
+            el.querySelectorAll('*').forEach(child => child.style.color = contrastColor);
         }
     });
+
+    // 5. Special border cases
+    if (currentTemplate === 'tech' || currentTemplate === 'classic') {
+        container.style.borderColor = accentColor;
+        const innerContainer = container.querySelector('.resume-tpl-container');
+        if (innerContainer) innerContainer.style.borderColor = accentColor;
+    }
 }
 
 // ===== PDF EXPORT =====
@@ -572,6 +576,7 @@ function saveToStorage() {
         languages: languageEntries,
         isPremiumUnlocked: isPremiumUnlocked,
         accentColor: document.getElementById('accentColor')?.value,
+        textColor: document.getElementById('textColor')?.value,
         fontBody: document.getElementById('fontBody')?.value
     };
     try {
@@ -600,6 +605,7 @@ function loadFromStorage() {
         setVal('summary', data.summary);
 
         if (data.accentColor) setVal('accentColor', data.accentColor);
+        if (data.textColor) setVal('textColor', data.textColor);
         if (data.fontBody) setVal('fontBody', data.fontBody);
 
         experienceEntries = data.experience || [];
