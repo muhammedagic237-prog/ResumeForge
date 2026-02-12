@@ -630,6 +630,26 @@ img {
     background: linear-gradient(135deg, #101a2a, #142035);
 }
 
+.corporate-thumb {
+    background: linear-gradient(135deg, #1e293b, #334155);
+}
+
+.artistic-thumb {
+    background: linear-gradient(135deg, #4a044e, #701a75);
+}
+
+.professional-thumb {
+    background: linear-gradient(135deg, #1f2937, #374151);
+}
+
+.academic-thumb {
+    background: linear-gradient(135deg, #3f3f46, #52525b);
+}
+
+.classic-thumb {
+    background: linear-gradient(135deg, #27272a, #3f3f46);
+}
+
 .tt-header {
     height: 30px;
     border-radius: 4px;
@@ -666,6 +686,26 @@ img {
 
 .compact-thumb .tt-header {
     background: linear-gradient(135deg, #38bdf8, #0284c7);
+}
+
+.corporate-thumb .tt-header {
+    background: linear-gradient(135deg, #94a3b8, #475569);
+}
+
+.artistic-thumb .tt-header {
+    background: linear-gradient(135deg, #f472b6, #db2777);
+}
+
+.professional-thumb .tt-header {
+    background: linear-gradient(135deg, #60a5fa, #2563eb);
+}
+
+.academic-thumb .tt-header {
+    background: linear-gradient(135deg, #d4d4d8, #a1a1aa);
+}
+
+.classic-thumb .tt-header {
+    background: linear-gradient(135deg, #e4e4e7, #d4d4d8);
 }
 
 .tt-body {
@@ -1123,9 +1163,37 @@ img {
 }
 
 .form-group input:focus,
-.form-group textarea:focus {
+.form-group textarea:focus,
+.form-group select:focus {
     border-color: var(--accent);
-    box-shadow: 0 0 0 3px var(--accent-glow);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}
+
+.color-picker-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+}
+
+.color-picker-wrapper input[type="color"] {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: none;
+    border-radius: 4px;
+    background: none;
+    cursor: pointer;
+}
+
+.color-value {
+    font-family: monospace;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
 }
 
 .form-group input::placeholder,
@@ -1846,6 +1914,253 @@ textarea {
 
 .resume-page.template-compact .resume-tpl-main .resume-tpl-entry-desc {
     font-size: 11px;
+}
+
+/* Template: CORPORATE — Clean, Slate Grey, Business-first */
+.resume-page.template-corporate {
+    font-family: 'Roboto', sans-serif;
+    color: #334155;
+}
+
+.resume-page.template-corporate .resume-tpl-header {
+    background: #f1f5f9;
+    padding: 32px 40px;
+    border-bottom: 4px solid #475569;
+}
+
+.resume-page.template-corporate .resume-tpl-name {
+    color: #1e293b;
+    font-size: 28px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.resume-page.template-corporate .resume-tpl-title {
+    color: #64748b;
+    font-weight: 500;
+    font-size: 14px;
+    margin-top: 4px;
+}
+
+.resume-page.template-corporate .resume-tpl-contact {
+    margin-top: 12px;
+    font-size: 11px;
+    color: #475569;
+}
+
+.resume-page.template-corporate .resume-tpl-section-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1e293b;
+    text-transform: uppercase;
+    border-bottom: 2px solid #cbd5e1;
+    margin-bottom: 16px;
+    padding-bottom: 4px;
+}
+
+.resume-page.template-corporate .resume-tpl-entry-company {
+    font-weight: 700;
+    color: #334155;
+}
+
+/* Template: ARTISTIC — Creative, Vibrant Pink/Purple */
+.resume-page.template-artistic {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.resume-page.template-artistic .resume-tpl-header {
+    background: linear-gradient(135deg, #c026d3, #7c3aed);
+    padding: 40px;
+    color: white;
+    text-align: center;
+}
+
+.resume-page.template-artistic .resume-tpl-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-style: italic;
+}
+
+.resume-page.template-artistic .resume-tpl-title {
+    opacity: 0.9;
+    font-weight: 300;
+    letter-spacing: 2px;
+    margin-top: 8px;
+    font-size: 12px;
+}
+
+.resume-page.template-artistic .resume-tpl-contact {
+    margin-top: 16px;
+    font-size: 11px;
+    opacity: 0.9;
+}
+
+.resume-page.template-artistic .resume-tpl-section-title {
+    color: #9333ea;
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-style: italic;
+    border-bottom: 1px dashed #d8b4fe;
+    text-align: center;
+}
+
+.resume-page.template-artistic .resume-tpl-entry-company {
+    color: #a855f7;
+    font-weight: 600;
+}
+
+.resume-page.template-artistic .resume-tpl-skill {
+    background: #f5d0fe;
+    color: #7e22ce;
+    border: none;
+    border-radius: 12px;
+}
+
+/* Template: PROFESSIONAL — Navy Blue, Reliable, Standard */
+.resume-page.template-professional {
+    font-family: 'Inter', sans-serif;
+}
+
+.resume-page.template-professional .resume-tpl-header {
+    background: #1e3a8a;
+    color: white;
+    padding: 30px 40px;
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+    margin-bottom: 20px;
+}
+
+.resume-page.template-professional .resume-tpl-name {
+    font-weight: 700;
+    font-size: 26px;
+}
+
+.resume-page.template-professional .resume-tpl-title {
+    color: #bfdbfe;
+    font-size: 13px;
+}
+
+.resume-page.template-professional .resume-tpl-contact {
+    margin-top: 8px;
+    font-size: 11px;
+    color: #dbeafe;
+}
+
+.resume-page.template-professional .resume-tpl-section-title {
+    color: #1e40af;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 13px;
+    border-left: 4px solid #60a5fa;
+    padding-left: 10px;
+}
+
+.resume-page.template-professional .resume-tpl-entry-company {
+    color: #2563eb;
+}
+
+/* Template: ACADEMIC — Serious, Serif, Grey Header */
+.resume-page.template-academic {
+    font-family: 'Merriweather', serif;
+    color: #333;
+}
+
+.resume-page.template-academic .resume-tpl-header {
+    border-bottom: 1px solid #ccc;
+    padding: 30px 40px;
+    text-align: center;
+}
+
+.resume-page.template-academic .resume-tpl-name {
+    font-size: 24px;
+    color: #000;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.resume-page.template-academic .resume-tpl-title {
+    font-style: italic;
+    color: #555;
+    font-size: 12px;
+    margin-top: 6px;
+}
+
+.resume-page.template-academic .resume-tpl-contact {
+    margin-top: 10px;
+    font-size: 10px;
+    color: #666;
+}
+
+.resume-page.template-academic .resume-tpl-section-title {
+    text-align: center;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    border-bottom: 1px solid #eee;
+    color: #000;
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+}
+
+.resume-page.template-academic .resume-tpl-entry-company {
+    font-weight: 700;
+    color: #333;
+}
+
+/* Template: CLASSIC — Elegant Border, Traditional */
+.resume-page.template-classic {
+    font-family: 'Playfair Display', serif;
+    padding: 20px;
+}
+
+.resume-page.template-classic .resume-tpl-container {
+    border: 1px solid #000;
+    height: 100%;
+    padding: 20px;
+}
+
+.resume-page.template-classic .resume-tpl-header {
+    text-align: center;
+    padding-bottom: 20px;
+    border-bottom: 4px double #000;
+    margin-bottom: 20px;
+}
+
+.resume-page.template-classic .resume-tpl-name {
+    font-size: 30px;
+    font-weight: 700;
+    color: #000;
+}
+
+.resume-page.template-classic .resume-tpl-title {
+    font-family: 'Lato', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 11px;
+    margin-top: 8px;
+    color: #444;
+}
+
+.resume-page.template-classic .resume-tpl-contact {
+    margin-top: 12px;
+    font-family: 'Lato', sans-serif;
+    font-size: 10px;
+}
+
+.resume-page.template-classic .resume-tpl-section-title {
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    border-bottom: 1px solid #000;
+    display: inline-block;
+    padding-bottom: 2px;
+    margin-bottom: 16px;
+    color: #000;
+}
+
+.resume-page.template-classic .resume-tpl-entry-company {
+    font-weight: 700;
+    font-style: italic;
 }
 
 /* ===== MODAL ===== */

@@ -7,7 +7,7 @@ let languageEntries = [];
 let isPremiumUnlocked = false;
 let saveTimeout = null;
 
-const PREMIUM_TEMPLATES = ['executive', 'bold'];
+const PREMIUM_TEMPLATES = ['elegant', 'tech', 'compact', 'executive', 'bold', 'corporate', 'artistic', 'professional', 'academic', 'classic'];
 
 // ===== NAVIGATION =====
 function startBuilder(template) {
@@ -299,14 +299,40 @@ function renderSkills() {
 // ===== LIVE PREVIEW =====
 function updatePreview() {
     const data = getFormData();
+    const accentColor = document.getElementById('accentColor').value;
+    const fontBody = document.getElementById('fontBody').value;
     const preview = document.getElementById('resume-preview');
+
+    // Apply key customization variables
+    preview.style.setProperty('--tpl-accent', accentColor);
+    preview.style.fontFamily = fontBody;
+
+    // Some templates use the accent color directly in CSS that we need to override or map
+    // We'll rely on our specific template CSS, but we can also inject a dynamic style if needed
+    // For this implementation, we will apply the font and let CSS variables handle colors where possible
+    // However, since our CSS uses specific hex codes, we might need to inject inline styles or 
+    // update the specific elements.
+    // A better approach for this customized version is to set the specific elements' colors in JS
+    // OR update the CSS to use var(--tpl-accent). 
+    // Given the current CSS structure, we'll traverse and update common elements for the active preview.
+
     preview.className = `resume-page template-${currentTemplate}`;
 
     if (currentTemplate === 'creative' || currentTemplate === 'compact') {
         preview.innerHTML = renderCreativeTemplate(data);
+    } else if (currentTemplate === 'classic') {
+        preview.innerHTML = renderClassicTemplate(data);
     } else {
         preview.innerHTML = renderStandardTemplate(data);
     }
+
+    // Apply dynamic colors after rendering
+    applyDynamicColors(preview, accentColor);
+
+    // Update color value display
+    const colorDisplay = document.querySelector('.color-value');
+    if (colorDisplay) colorDisplay.textContent = accentColor;
+
     triggerSave();
 }
 
@@ -430,11 +456,70 @@ function renderCreativeTemplate(data) {
             ${renderSkillsSection(data)}
             ${renderLanguagesSection(data)}
         </div>
+        </div>
         <div class="resume-tpl-main">
             ${data.summary ? `<div class="resume-tpl-section"><div class="resume-tpl-section-title">About Me</div><div class="resume-tpl-summary">${esc(data.summary).replace(/\n/g, '<br>')}</div></div>` : ''}
             ${renderExperienceSection(data)}
             ${renderEducationSection(data)}
         </div>`;
+}
+
+function renderClassicTemplate(data) {
+    return `
+        <div class="resume-tpl-container">
+            <div class="resume-tpl-header">
+                <div class="resume-tpl-name">${esc(data.fullName)}</div>
+                <div class="resume-tpl-title">${esc(data.jobTitle)}</div>
+                <div class="resume-tpl-contact">${renderContactItems(data)}</div>
+            </div>
+            <div class="resume-tpl-body">
+                ${data.summary ? `<div class="resume-tpl-section"><div class="resume-tpl-section-title">Summary</div><div class="resume-tpl-summary">${esc(data.summary).replace(/\n/g, '<br>')}</div></div>` : ''}
+                ${renderExperienceSection(data)}
+                ${renderEducationSection(data)}
+                ${renderSkillsSection(data)}
+                ${renderLanguagesSection(data)}
+            </div>
+        </div>`;
+}
+
+function applyDynamicColors(container, color) {
+    // Dynamic color application helper
+    // Validates if color is valid hex
+    if (!/^#[0-9A-F]{6}$/i.test(color)) return;
+
+    // Headings
+    container.querySelectorAll('.resume-tpl-name, .resume-tpl-section-title, .resume-tpl-entry-company').forEach(el => {
+        // Only override if the template is meant to change with accent
+        // For standard/modern templates, yes.
+        // For some strict themes, maybe we want to keep them fixed?
+        // User requested "all of the templates be editable".
+        el.style.color = color;
+        el.style.borderColor = color;
+    });
+
+    // Backgrounds for badges/headers? 
+    // This is tricky as some use gradients. We'll stick to text elements validation for now.
+    // For fully custom backgrounds, we'd need more logic. 
+    // Let's at least update the skills badges
+    container.querySelectorAll('.resume-tpl-skill').forEach(el => {
+        el.style.borderColor = color;
+        el.style.color = color;
+        // make bg transparent version of color
+        // simplistic approach: 
+        el.style.backgroundColor = color + '15'; // 10% opacity
+    });
+
+    // Sidebar backgrounds for compact/creative
+    container.querySelectorAll('.resume-tpl-sidebar, .resume-tpl-header').forEach(el => {
+        // Check if it has a background color set in CSS that isn't white
+        const style = window.getComputedStyle(el);
+        if (style.backgroundColor !== 'rgba(0, 0, 0, 0)' && style.backgroundColor !== 'rgb(255, 255, 255)') {
+            el.style.background = color;
+            // If background is dark, ensure text is white
+            // This is a naive check, but fine for this MVP
+            el.style.color = '#fff';
+        }
+    });
 }
 
 // ===== PDF EXPORT =====
@@ -483,7 +568,11 @@ function saveToStorage() {
         education: educationEntries,
         skills: skills,
         languages: languageEntries,
-        isPremiumUnlocked: isPremiumUnlocked
+        skills: skills,
+        languages: languageEntries,
+        isPremiumUnlocked: isPremiumUnlocked,
+        accentColor: document.getElementById('accentColor')?.value,
+        fontBody: document.getElementById('fontBody')?.value
     };
     try {
         localStorage.setItem('resumeforge_data', JSON.stringify(data));
@@ -506,7 +595,12 @@ function loadFromStorage() {
         setVal('phone', data.phone);
         setVal('location', data.location);
         setVal('website', data.website);
+        setVal('location', data.location);
+        setVal('website', data.website);
         setVal('summary', data.summary);
+
+        if (data.accentColor) setVal('accentColor', data.accentColor);
+        if (data.fontBody) setVal('fontBody', data.fontBody);
 
         experienceEntries = data.experience || [];
         educationEntries = data.education || [];
