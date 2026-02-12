@@ -959,6 +959,37 @@ img {
     gap: 8px;
 }
 
+/* Editor Tip Banner */
+.editor-tip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 12px 16px;
+    background: rgba(129, 140, 248, 0.1);
+    border: 1px solid rgba(129, 140, 248, 0.2);
+    border-radius: var(--radius-sm);
+    font-size: 0.82rem;
+    color: var(--accent);
+    line-height: 1.5;
+    margin-bottom: 4px;
+}
+
+.tip-close {
+    background: none;
+    border: none;
+    color: var(--accent);
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0 4px;
+    opacity: 0.6;
+    flex-shrink: 0;
+}
+
+.tip-close:hover {
+    opacity: 1;
+}
+
 /* Section Toggles */
 .section-toggle {
     display: flex;

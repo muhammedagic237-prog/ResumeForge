@@ -21,8 +21,53 @@ function startBuilder(template) {
     }
     document.getElementById('landing-page').classList.add('hidden');
     document.getElementById('builder-app').classList.remove('hidden');
-    loadFromStorage();
+
+    const hasSaved = localStorage.getItem('resumeforge_data');
+    if (hasSaved) {
+        loadFromStorage();
+    } else {
+        loadSampleData();
+    }
+
+    // Open all sections so fields are visible immediately
+    openAllSections();
     updatePreview();
+}
+
+function openAllSections() {
+    document.querySelectorAll('.section-toggle').forEach(t => t.classList.add('active'));
+    document.querySelectorAll('.section-content').forEach(c => c.classList.add('open'));
+}
+
+function loadSampleData() {
+    document.getElementById('fullName').value = 'Alex Johnson';
+    document.getElementById('jobTitle').value = 'Senior Software Engineer';
+    document.getElementById('email').value = 'alex.johnson@email.com';
+    document.getElementById('phone').value = '+1 (555) 987-6543';
+    document.getElementById('location').value = 'San Francisco, CA';
+    document.getElementById('website').value = 'linkedin.com/in/alexjohnson';
+    document.getElementById('summary').value = 'Results-driven software engineer with 6+ years of experience building scalable web applications. Passionate about clean code, team collaboration, and delivering exceptional user experiences. Proven track record of leading teams and shipping products used by millions.';
+
+    experienceEntries = [
+        { id: 1, role: 'Senior Software Engineer', company: 'Google', startDate: 'Jan 2022', endDate: 'Present', description: 'Led development of core search features serving 1B+ users.\nMentored a team of 5 junior engineers.\nImproved page load performance by 35%.' },
+        { id: 2, role: 'Software Engineer', company: 'Meta', startDate: 'Jun 2019', endDate: 'Dec 2021', description: 'Built and maintained React components for the News Feed.\nCollaborated with design team to improve UI/UX.\nReduced bug count by 40% through automated testing.' }
+    ];
+
+    educationEntries = [
+        { id: 3, degree: 'BSc Computer Science', school: 'Stanford University', startDate: '2015', endDate: '2019', description: 'GPA: 3.8/4.0 — Deans List' }
+    ];
+
+    skills = ['JavaScript', 'React', 'TypeScript', 'Node.js', 'Python', 'SQL', 'Git', 'AWS', 'Docker', 'Agile'];
+
+    languageEntries = [
+        { id: 4, language: 'English', level: 'Native' },
+        { id: 5, language: 'Spanish', level: 'Intermediate' }
+    ];
+
+    renderExperienceEntries();
+    renderEducationEntries();
+    renderSkills();
+    renderLanguageEntries();
 }
 
 function goToLanding() {
@@ -39,11 +84,11 @@ function toggleMobileMenu() {
 // ===== SECTION TOGGLE =====
 function toggleSection(el) {
     const isActive = el.classList.contains('active');
-    // Close all
-    document.querySelectorAll('.section-toggle').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.section-content').forEach(c => c.classList.remove('open'));
-    // Open clicked (if wasn't active)
-    if (!isActive) {
+    // Toggle clicked section (allow multiple open)
+    if (isActive) {
+        el.classList.remove('active');
+        el.nextElementSibling.classList.remove('open');
+    } else {
         el.classList.add('active');
         el.nextElementSibling.classList.add('open');
     }
@@ -473,6 +518,7 @@ function loadFromStorage() {
         renderEducationEntries();
         renderSkills();
         renderLanguageEntries();
+        openAllSections();
     } catch (e) { /* corrupt data */ }
 }
 
