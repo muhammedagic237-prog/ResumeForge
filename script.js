@@ -1,0 +1,567 @@
+// ===== STATE =====
+let currentTemplate = 'modern';
+let skills = [];
+let experienceEntries = [];
+let educationEntries = [];
+let languageEntries = [];
+let isPremiumUnlocked = false;
+let saveTimeout = null;
+
+const PREMIUM_TEMPLATES = ['executive', 'bold'];
+
+// ===== NAVIGATION =====
+function startBuilder(template) {
+    if (template) {
+        if (PREMIUM_TEMPLATES.includes(template) && !isPremiumUnlocked) {
+            showPremiumModal();
+            return;
+        }
+        currentTemplate = template;
+        document.getElementById('template-select').value = template;
+    }
+    document.getElementById('landing-page').classList.add('hidden');
+    document.getElementById('builder-app').classList.remove('hidden');
+    loadFromStorage();
+    updatePreview();
+}
+
+function goToLanding() {
+    saveToStorage();
+    document.getElementById('builder-app').classList.add('hidden');
+    document.getElementById('landing-page').classList.remove('hidden');
+}
+
+function toggleMobileMenu() {
+    const links = document.querySelector('.landing-nav-links');
+    links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
+}
+
+// ===== SECTION TOGGLE =====
+function toggleSection(el) {
+    const isActive = el.classList.contains('active');
+    // Close all
+    document.querySelectorAll('.section-toggle').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.section-content').forEach(c => c.classList.remove('open'));
+    // Open clicked (if wasn't active)
+    if (!isActive) {
+        el.classList.add('active');
+        el.nextElementSibling.classList.add('open');
+    }
+}
+
+// ===== TEMPLATE SWITCHING =====
+function changeTemplate(val) {
+    if (PREMIUM_TEMPLATES.includes(val) && !isPremiumUnlocked) {
+        showPremiumModal();
+        document.getElementById('template-select').value = currentTemplate;
+        return;
+    }
+    currentTemplate = val;
+    updatePreview();
+    triggerSave();
+}
+
+// ===== EXPERIENCE =====
+function addExperience() {
+    const id = Date.now();
+    experienceEntries.push({ id, role: '', company: '', startDate: '', endDate: '', description: '' });
+    renderExperienceEntries();
+    updatePreview();
+}
+
+function removeExperience(id) {
+    experienceEntries = experienceEntries.filter(e => e.id !== id);
+    renderExperienceEntries();
+    updatePreview();
+    triggerSave();
+}
+
+function renderExperienceEntries() {
+    const container = document.getElementById('experience-entries');
+    container.innerHTML = experienceEntries.map(e => `
+        <div class="entry-card" data-id="${e.id}">
+            <button class="entry-remove" onclick="removeExperience(${e.id})" title="Remove">×</button>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Job Title</label>
+                    <input type="text" value="${esc(e.role)}" placeholder="Software Engineer" oninput="updateExpField(${e.id},'role',this.value)">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Company</label>
+                    <input type="text" value="${esc(e.company)}" placeholder="Google Inc." oninput="updateExpField(${e.id},'company',this.value)">
+                </div>
+            </div>
+            <div class="form-row two-col">
+                <div class="form-group">
+                    <label>Start Date</label>
+                    <input type="text" value="${esc(e.startDate)}" placeholder="Jan 2022" oninput="updateExpField(${e.id},'startDate',this.value)">
+                </div>
+                <div class="form-group">
+                    <label>End Date</label>
+                    <input type="text" value="${esc(e.endDate)}" placeholder="Present" oninput="updateExpField(${e.id},'endDate',this.value)">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea rows="3" placeholder="Describe your responsibilities and achievements..." oninput="updateExpField(${e.id},'description',this.value)">${esc(e.description)}</textarea>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+function updateExpField(id, field, value) {
+    const entry = experienceEntries.find(e => e.id === id);
+    if (entry) entry[field] = value;
+    updatePreview();
+    triggerSave();
+}
+
+// ===== EDUCATION =====
+function addEducation() {
+    const id = Date.now();
+    educationEntries.push({ id, degree: '', school: '', startDate: '', endDate: '', description: '' });
+    renderEducationEntries();
+    updatePreview();
+}
+
+function removeEducation(id) {
+    educationEntries = educationEntries.filter(e => e.id !== id);
+    renderEducationEntries();
+    updatePreview();
+    triggerSave();
+}
+
+function renderEducationEntries() {
+    const container = document.getElementById('education-entries');
+    container.innerHTML = educationEntries.map(e => `
+        <div class="entry-card" data-id="${e.id}">
+            <button class="entry-remove" onclick="removeEducation(${e.id})" title="Remove">×</button>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Degree / Certificate</label>
+                    <input type="text" value="${esc(e.degree)}" placeholder="BSc Computer Science" oninput="updateEduField(${e.id},'degree',this.value)">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>School / University</label>
+                    <input type="text" value="${esc(e.school)}" placeholder="MIT" oninput="updateEduField(${e.id},'school',this.value)">
+                </div>
+            </div>
+            <div class="form-row two-col">
+                <div class="form-group">
+                    <label>Start Date</label>
+                    <input type="text" value="${esc(e.startDate)}" placeholder="2018" oninput="updateEduField(${e.id},'startDate',this.value)">
+                </div>
+                <div class="form-group">
+                    <label>End Date</label>
+                    <input type="text" value="${esc(e.endDate)}" placeholder="2022" oninput="updateEduField(${e.id},'endDate',this.value)">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Description (optional)</label>
+                    <textarea rows="2" placeholder="GPA, honors, relevant coursework..." oninput="updateEduField(${e.id},'description',this.value)">${esc(e.description)}</textarea>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+function updateEduField(id, field, value) {
+    const entry = educationEntries.find(e => e.id === id);
+    if (entry) entry[field] = value;
+    updatePreview();
+    triggerSave();
+}
+
+// ===== LANGUAGES =====
+function addLanguage() {
+    const id = Date.now();
+    languageEntries.push({ id, language: '', level: 'Native' });
+    renderLanguageEntries();
+    updatePreview();
+}
+
+function removeLanguage(id) {
+    languageEntries = languageEntries.filter(e => e.id !== id);
+    renderLanguageEntries();
+    updatePreview();
+    triggerSave();
+}
+
+function renderLanguageEntries() {
+    const container = document.getElementById('language-entries');
+    container.innerHTML = languageEntries.map(e => `
+        <div class="entry-card" data-id="${e.id}">
+            <button class="entry-remove" onclick="removeLanguage(${e.id})" title="Remove">×</button>
+            <div class="form-row two-col">
+                <div class="form-group">
+                    <label>Language</label>
+                    <input type="text" value="${esc(e.language)}" placeholder="English" oninput="updateLangField(${e.id},'language',this.value)">
+                </div>
+                <div class="form-group">
+                    <label>Proficiency</label>
+                    <select onchange="updateLangField(${e.id},'level',this.value)">
+                        ${['Native', 'Fluent', 'Advanced', 'Intermediate', 'Basic'].map(l => `<option value="${l}" ${e.level === l ? 'selected' : ''}>${l}</option>`).join('')}
+                    </select>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+function updateLangField(id, field, value) {
+    const entry = languageEntries.find(e => e.id === id);
+    if (entry) entry[field] = value;
+    updatePreview();
+    triggerSave();
+}
+
+// ===== SKILLS =====
+function handleSkillInput(event) {
+    if (event.key === 'Enter' && event.target.value.trim()) {
+        event.preventDefault();
+        const skill = event.target.value.trim();
+        if (!skills.includes(skill)) {
+            skills.push(skill);
+            renderSkills();
+            updatePreview();
+            triggerSave();
+        }
+        event.target.value = '';
+    }
+}
+
+function removeSkill(index) {
+    skills.splice(index, 1);
+    renderSkills();
+    updatePreview();
+    triggerSave();
+}
+
+function renderSkills() {
+    const container = document.getElementById('skills-tags');
+    container.innerHTML = skills.map((s, i) => `
+        <span class="skill-tag">${esc(s)}<button onclick="removeSkill(${i})">×</button></span>
+    `).join('');
+}
+
+// ===== LIVE PREVIEW =====
+function updatePreview() {
+    const data = getFormData();
+    const preview = document.getElementById('resume-preview');
+    preview.className = `resume-page template-${currentTemplate}`;
+
+    if (currentTemplate === 'creative') {
+        preview.innerHTML = renderCreativeTemplate(data);
+    } else {
+        preview.innerHTML = renderStandardTemplate(data);
+    }
+    triggerSave();
+}
+
+function getFormData() {
+    return {
+        fullName: val('fullName') || 'Your Name',
+        jobTitle: val('jobTitle') || 'Professional Title',
+        email: val('email'),
+        phone: val('phone'),
+        location: val('location'),
+        website: val('website'),
+        summary: val('summary'),
+        experience: experienceEntries.filter(e => e.role || e.company),
+        education: educationEntries.filter(e => e.degree || e.school),
+        skills: skills,
+        languages: languageEntries.filter(e => e.language)
+    };
+}
+
+function val(id) {
+    const el = document.getElementById(id);
+    return el ? el.value : '';
+}
+
+function esc(str) {
+    if (!str) return '';
+    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function renderContactItems(data) {
+    const items = [];
+    if (data.email) items.push(`📧 ${esc(data.email)}`);
+    if (data.phone) items.push(`📱 ${esc(data.phone)}`);
+    if (data.location) items.push(`📍 ${esc(data.location)}`);
+    if (data.website) items.push(`🔗 ${esc(data.website)}`);
+    return items.map(i => `<span>${i}</span>`).join('');
+}
+
+function renderExperienceSection(data) {
+    if (!data.experience.length) return '';
+    return `
+        <div class="resume-tpl-section">
+            <div class="resume-tpl-section-title">Work Experience</div>
+            ${data.experience.map(e => `
+                <div class="resume-tpl-entry">
+                    <div class="resume-tpl-entry-header">
+                        <span class="resume-tpl-entry-role">${esc(e.role) || 'Position'}</span>
+                        <span class="resume-tpl-entry-date">${esc(e.startDate)}${e.endDate ? ' — ' + esc(e.endDate) : ''}</span>
+                    </div>
+                    <div class="resume-tpl-entry-company">${esc(e.company)}</div>
+                    ${e.description ? `<div class="resume-tpl-entry-desc">${esc(e.description).replace(/\n/g, '<br>')}</div>` : ''}
+                </div>
+            `).join('')}
+        </div>`;
+}
+
+function renderEducationSection(data) {
+    if (!data.education.length) return '';
+    return `
+        <div class="resume-tpl-section">
+            <div class="resume-tpl-section-title">Education</div>
+            ${data.education.map(e => `
+                <div class="resume-tpl-entry">
+                    <div class="resume-tpl-entry-header">
+                        <span class="resume-tpl-entry-role">${esc(e.degree) || 'Degree'}</span>
+                        <span class="resume-tpl-entry-date">${esc(e.startDate)}${e.endDate ? ' — ' + esc(e.endDate) : ''}</span>
+                    </div>
+                    <div class="resume-tpl-entry-company">${esc(e.school)}</div>
+                    ${e.description ? `<div class="resume-tpl-entry-desc">${esc(e.description)}</div>` : ''}
+                </div>
+            `).join('')}
+        </div>`;
+}
+
+function renderSkillsSection(data) {
+    if (!data.skills.length) return '';
+    return `
+        <div class="resume-tpl-section">
+            <div class="resume-tpl-section-title">Skills</div>
+            <div class="resume-tpl-skills">
+                ${data.skills.map(s => `<span class="resume-tpl-skill">${esc(s)}</span>`).join('')}
+            </div>
+        </div>`;
+}
+
+function renderLanguagesSection(data) {
+    if (!data.languages.length) return '';
+    return `
+        <div class="resume-tpl-section">
+            <div class="resume-tpl-section-title">Languages</div>
+            <div class="resume-tpl-languages">
+                ${data.languages.map(l => `
+                    <span class="resume-tpl-lang">${esc(l.language)} <span class="resume-tpl-lang-level">• ${esc(l.level)}</span></span>
+                `).join('')}
+            </div>
+        </div>`;
+}
+
+function renderStandardTemplate(data) {
+    return `
+        <div class="resume-tpl-header">
+            <div class="resume-tpl-name">${esc(data.fullName)}</div>
+            <div class="resume-tpl-title">${esc(data.jobTitle)}</div>
+            <div class="resume-tpl-contact">${renderContactItems(data)}</div>
+        </div>
+        <div class="resume-tpl-body">
+            ${data.summary ? `<div class="resume-tpl-section"><div class="resume-tpl-section-title">Professional Summary</div><div class="resume-tpl-summary">${esc(data.summary).replace(/\n/g, '<br>')}</div></div>` : ''}
+            ${renderExperienceSection(data)}
+            ${renderEducationSection(data)}
+            ${renderSkillsSection(data)}
+            ${renderLanguagesSection(data)}
+        </div>`;
+}
+
+function renderCreativeTemplate(data) {
+    return `
+        <div class="resume-tpl-sidebar">
+            <div class="resume-tpl-name">${esc(data.fullName)}</div>
+            <div class="resume-tpl-title">${esc(data.jobTitle)}</div>
+            <div class="resume-tpl-contact">${renderContactItems(data)}</div>
+            ${renderSkillsSection(data)}
+            ${renderLanguagesSection(data)}
+        </div>
+        <div class="resume-tpl-main">
+            ${data.summary ? `<div class="resume-tpl-section"><div class="resume-tpl-section-title">About Me</div><div class="resume-tpl-summary">${esc(data.summary).replace(/\n/g, '<br>')}</div></div>` : ''}
+            ${renderExperienceSection(data)}
+            ${renderEducationSection(data)}
+        </div>`;
+}
+
+// ===== PDF EXPORT =====
+function downloadPDF() {
+    const element = document.getElementById('resume-preview');
+    const resumeName = document.getElementById('resume-name').value || 'My Resume';
+
+    showToast('📄', 'Generating PDF...');
+
+    const opt = {
+        margin: 0,
+        filename: `${resumeName}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true, letterRendering: true },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+
+    html2pdf().set(opt).from(element).save().then(() => {
+        showToast('✅', 'PDF downloaded successfully!');
+    }).catch(() => {
+        showToast('❌', 'PDF generation failed. Please try again.');
+    });
+}
+
+// ===== STORAGE =====
+function triggerSave() {
+    clearTimeout(saveTimeout);
+    saveTimeout = setTimeout(() => {
+        saveToStorage();
+        showSaveIndicator();
+    }, 500);
+}
+
+function saveToStorage() {
+    const data = {
+        template: currentTemplate,
+        resumeName: document.getElementById('resume-name')?.value || 'My Resume',
+        fullName: val('fullName'),
+        jobTitle: val('jobTitle'),
+        email: val('email'),
+        phone: val('phone'),
+        location: val('location'),
+        website: val('website'),
+        summary: val('summary'),
+        experience: experienceEntries,
+        education: educationEntries,
+        skills: skills,
+        languages: languageEntries,
+        isPremiumUnlocked: isPremiumUnlocked
+    };
+    try {
+        localStorage.setItem('resumeforge_data', JSON.stringify(data));
+    } catch (e) { /* storage full */ }
+}
+
+function loadFromStorage() {
+    try {
+        const raw = localStorage.getItem('resumeforge_data');
+        if (!raw) return;
+        const data = JSON.parse(raw);
+
+        currentTemplate = data.template || 'modern';
+        document.getElementById('template-select').value = currentTemplate;
+        if (data.resumeName) document.getElementById('resume-name').value = data.resumeName;
+
+        setVal('fullName', data.fullName);
+        setVal('jobTitle', data.jobTitle);
+        setVal('email', data.email);
+        setVal('phone', data.phone);
+        setVal('location', data.location);
+        setVal('website', data.website);
+        setVal('summary', data.summary);
+
+        experienceEntries = data.experience || [];
+        educationEntries = data.education || [];
+        skills = data.skills || [];
+        languageEntries = data.languages || [];
+        isPremiumUnlocked = data.isPremiumUnlocked || false;
+
+        renderExperienceEntries();
+        renderEducationEntries();
+        renderSkills();
+        renderLanguageEntries();
+    } catch (e) { /* corrupt data */ }
+}
+
+function setVal(id, value) {
+    const el = document.getElementById(id);
+    if (el && value) el.value = value;
+}
+
+function showSaveIndicator() {
+    const indicator = document.getElementById('save-indicator');
+    indicator.classList.add('visible');
+    setTimeout(() => indicator.classList.remove('visible'), 2000);
+}
+
+// ===== PREMIUM MODAL =====
+function showPremiumModal() {
+    document.getElementById('premium-modal').classList.add('active');
+}
+
+function closePremiumModal() {
+    document.getElementById('premium-modal').classList.remove('active');
+}
+
+function unlockPremium() {
+    // In production, this would connect to Stripe/payment
+    isPremiumUnlocked = true;
+    closePremiumModal();
+    showToast('⭐', 'Premium templates unlocked!');
+    triggerSave();
+}
+
+// ===== TOAST =====
+function showToast(icon, message) {
+    const toast = document.getElementById('toast');
+    toast.querySelector('.toast-icon').textContent = icon;
+    toast.querySelector('.toast-message').textContent = message;
+    toast.classList.add('visible');
+    setTimeout(() => toast.classList.remove('visible'), 3000);
+}
+
+// ===== LANDING PAGE ANIMATIONS =====
+function animateCounters() {
+    document.querySelectorAll('.stat-number[data-count]').forEach(el => {
+        const target = parseInt(el.dataset.count);
+        const duration = 2000;
+        const step = target / (duration / 16);
+        let current = 0;
+        const timer = setInterval(() => {
+            current += step;
+            if (current >= target) {
+                current = target;
+                clearInterval(timer);
+            }
+            el.textContent = Math.floor(current).toLocaleString();
+        }, 16);
+    });
+}
+
+// Intersection Observer for scroll animations
+function initScrollAnimations() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.feature-card, .template-preview-card, .pricing-card').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        observer.observe(el);
+    });
+}
+
+// ===== INIT =====
+document.addEventListener('DOMContentLoaded', () => {
+    animateCounters();
+    initScrollAnimations();
+
+    // Close modal on overlay click
+    document.getElementById('premium-modal').addEventListener('click', (e) => {
+        if (e.target === e.currentTarget) closePremiumModal();
+    });
+
+    // Escape key closes modal
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closePremiumModal();
+    });
+});
