@@ -1366,8 +1366,23 @@ textarea {
     min-height: 1056px;
     padding: 0;
     overflow: hidden;
+    /* Keeps border radius, but content should wrap */
     font-size: 13px;
     line-height: 1.5;
+    word-wrap: break-word;
+    /* Ensure long words break */
+    overflow-wrap: break-word;
+}
+
+/* Ensure Name wraps */
+.resume-tpl-name {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    /* Force wrapping */
+    line-height: 1.1;
+    /* Tighter line height for wrapped names */
+    max-width: 100%;
 }
 
 /* ===== RESUME TEMPLATE: Modern ===== */
@@ -1544,13 +1559,17 @@ textarea {
 .resume-page.template-creative .resume-tpl-sidebar {
     background: #0f172a;
     color: #fff;
-    padding: 32px 20px;
+    padding: 32px 16px;
+    /* Reduced padding slightly for more space */
+    width: 200px;
+    box-sizing: border-box;
 }
 
 .resume-page.template-creative .resume-tpl-sidebar .resume-tpl-name {
     font-size: 20px;
     font-weight: 800;
     margin-bottom: 4px;
+    word-break: break-word;
 }
 
 .resume-page.template-creative .resume-tpl-sidebar .resume-tpl-title {
@@ -1851,6 +1870,7 @@ textarea {
     font-weight: 800;
     color: #fff;
     line-height: 1.2;
+    word-break: break-word;
 }
 
 .resume-page.template-compact .resume-tpl-sidebar .resume-tpl-title {
@@ -1934,6 +1954,7 @@ textarea {
     font-weight: 900;
     text-transform: uppercase;
     letter-spacing: 1px;
+    line-height: 1.1;
 }
 
 .resume-page.template-corporate .resume-tpl-title {
