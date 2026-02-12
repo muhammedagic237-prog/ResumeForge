@@ -79,7 +79,7 @@
                     </div>
                     <div class="stat-divider"></div>
                     <div class="hero-stat">
-                        <span class="stat-number" data-count="5">0</span>
+                        <span class="stat-number" data-count="8">0</span>
                         <span class="stat-label">Premium Templates</span>
                     </div>
                     <div class="stat-divider"></div>
@@ -249,6 +249,48 @@
                         <span class="template-tag free">Free</span>
                     </div>
                 </div>
+                <div class="template-preview-card" onclick="startBuilder('elegant')">
+                    <div class="template-thumb elegant-thumb">
+                        <div class="tt-header"></div>
+                        <div class="tt-body">
+                            <div class="tt-line w75"></div>
+                            <div class="tt-line w85"></div>
+                            <div class="tt-line w65"></div>
+                        </div>
+                    </div>
+                    <div class="template-info">
+                        <h4>Elegant</h4>
+                        <span class="template-tag free">Free</span>
+                    </div>
+                </div>
+                <div class="template-preview-card" onclick="startBuilder('tech')">
+                    <div class="template-thumb tech-thumb">
+                        <div class="tt-header"></div>
+                        <div class="tt-body">
+                            <div class="tt-line w90"></div>
+                            <div class="tt-line w70"></div>
+                            <div class="tt-line w80"></div>
+                        </div>
+                    </div>
+                    <div class="template-info">
+                        <h4>Tech</h4>
+                        <span class="template-tag free">Free</span>
+                    </div>
+                </div>
+                <div class="template-preview-card" onclick="startBuilder('compact')">
+                    <div class="template-thumb compact-thumb">
+                        <div class="tt-header"></div>
+                        <div class="tt-body">
+                            <div class="tt-line w65"></div>
+                            <div class="tt-line w90"></div>
+                            <div class="tt-line w75"></div>
+                        </div>
+                    </div>
+                    <div class="template-info">
+                        <h4>Compact</h4>
+                        <span class="template-tag free">Free</span>
+                    </div>
+                </div>
                 <div class="template-preview-card premium-card" onclick="startBuilder('executive')">
                     <div class="premium-badge-card">⭐ Premium</div>
                     <div class="template-thumb executive-thumb">
@@ -299,7 +341,7 @@
                         <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#34d399"
                                 stroke-width="3">
                                 <polyline points="20 6 9 17 4 12" />
-                            </svg> 3 Free Templates</li>
+                            </svg> 6 Free Templates</li>
                         <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#34d399"
                                 stroke-width="3">
                                 <polyline points="20 6 9 17 4 12" />
@@ -320,16 +362,20 @@
                     <button class="btn-primary btn-pricing" onclick="startBuilder()">Get Started Free</button>
                 </div>
                 <div class="pricing-card pricing-card-pro">
-                    <div class="popular-badge">Most Popular</div>
-                    <div class="pricing-tier">Pro</div>
+                    <div class="popular-badge">🔥 Best Value</div>
+                    <div class="pricing-tier">Lifetime Pro</div>
                     <div class="pricing-amount"><span class="price-currency">$</span><span
-                            class="price-value">9</span><span class="price-period">/mo</span></div>
-                    <p class="pricing-desc">For serious job seekers</p>
+                            class="price-value">4.99</span></div>
+                    <p class="pricing-desc">One-time payment • Lifetime access</p>
                     <ul class="pricing-features">
                         <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#34d399"
                                 stroke-width="3">
                                 <polyline points="20 6 9 17 4 12" />
-                            </svg> All 5+ Premium Templates</li>
+                            </svg> All 8 Premium Templates</li>
+                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#34d399"
+                                stroke-width="3">
+                                <polyline points="20 6 9 17 4 12" />
+                            </svg> Lifetime Updates & New Templates</li>
                         <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#34d399"
                                 stroke-width="3">
                                 <polyline points="20 6 9 17 4 12" />
@@ -341,14 +387,10 @@
                         <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#34d399"
                                 stroke-width="3">
                                 <polyline points="20 6 9 17 4 12" />
-                            </svg> Cover Letter Builder</li>
-                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#34d399"
-                                stroke-width="3">
-                                <polyline points="20 6 9 17 4 12" />
                             </svg> Priority Support</li>
                     </ul>
-                    <button class="btn-primary btn-pricing btn-pricing-pro" onclick="startBuilder()">Start Pro
-                        Trial</button>
+                    <button class="btn-primary btn-pricing btn-pricing-pro" onclick="unlockPremium()">Unlock Lifetime
+                        Access — $4.99</button>
                 </div>
             </div>
         </section>
@@ -420,6 +462,9 @@
                     <option value="modern">Modern</option>
                     <option value="minimal">Minimal</option>
                     <option value="creative">Creative</option>
+                    <option value="elegant">Elegant</option>
+                    <option value="tech">Tech</option>
+                    <option value="compact">Compact</option>
                     <option value="executive" class="premium-opt">⭐ Executive</option>
                     <option value="bold" class="premium-opt">⭐ Bold</option>
                 </select>

@@ -302,7 +302,7 @@ function updatePreview() {
     const preview = document.getElementById('resume-preview');
     preview.className = `resume-page template-${currentTemplate}`;
 
-    if (currentTemplate === 'creative') {
+    if (currentTemplate === 'creative' || currentTemplate === 'compact') {
         preview.innerHTML = renderCreativeTemplate(data);
     } else {
         preview.innerHTML = renderStandardTemplate(data);

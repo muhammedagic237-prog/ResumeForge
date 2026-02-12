@@ -83,9 +83,10 @@ img {
     align-items: center;
     justify-content: space-between;
     padding: 16px 40px;
-    background: rgba(10, 10, 15, 0.8);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border);
+    background: rgba(10, 10, 15, 0.6);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .landing-logo {
@@ -253,8 +254,10 @@ img {
 .hero-badge {
     display: inline-block;
     padding: 6px 16px;
-    background: var(--bg-glass);
-    border: 1px solid var(--border);
+    background: rgba(129, 140, 248, 0.08);
+    backdrop-filter: blur(12px) saturate(150%);
+    -webkit-backdrop-filter: blur(12px) saturate(150%);
+    border: 1px solid rgba(129, 140, 248, 0.2);
     border-radius: 50px;
     font-size: 0.85rem;
     color: var(--accent);
@@ -494,17 +497,21 @@ img {
 }
 
 .feature-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: var(--radius);
     padding: 32px;
     transition: all 0.3s ease;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
 
 .feature-card:hover {
-    border-color: var(--border-hover);
+    border-color: rgba(255, 255, 255, 0.18);
     transform: translateY(-4px);
-    background: var(--bg-glass);
+    background: rgba(255, 255, 255, 0.06);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
 }
 
 .feature-icon {
@@ -611,6 +618,18 @@ img {
     background: linear-gradient(135deg, #1a0a1e, #2d1233);
 }
 
+.elegant-thumb {
+    background: linear-gradient(135deg, #1a1520, #2d2030);
+}
+
+.tech-thumb {
+    background: linear-gradient(135deg, #0a1a14, #102820);
+}
+
+.compact-thumb {
+    background: linear-gradient(135deg, #101a2a, #142035);
+}
+
 .tt-header {
     height: 30px;
     border-radius: 4px;
@@ -635,6 +654,18 @@ img {
 
 .bold-thumb .tt-header {
     background: linear-gradient(135deg, #f472b6, #ec4899);
+}
+
+.elegant-thumb .tt-header {
+    background: linear-gradient(135deg, #e879a0, #c06080);
+}
+
+.tech-thumb .tt-header {
+    background: linear-gradient(135deg, #34d399, #059669);
+}
+
+.compact-thumb .tt-header {
+    background: linear-gradient(135deg, #38bdf8, #0284c7);
 }
 
 .tt-body {
@@ -687,23 +718,28 @@ img {
 }
 
 .pricing-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: var(--radius-lg);
     padding: 40px;
     flex: 1;
     max-width: 360px;
     transition: all 0.3s ease;
     position: relative;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
 
 .pricing-card:hover {
     transform: translateY(-4px);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
 }
 
 .pricing-card-pro {
-    border-color: var(--accent);
-    background: rgba(129, 140, 248, 0.05);
+    border-color: rgba(129, 140, 248, 0.4);
+    background: rgba(129, 140, 248, 0.06);
+    box-shadow: 0 4px 30px rgba(129, 140, 248, 0.1);
 }
 
 .popular-badge {
@@ -839,8 +875,10 @@ img {
     align-items: center;
     justify-content: space-between;
     padding: 10px 20px;
-    background: var(--bg-secondary);
-    border-bottom: 1px solid var(--border);
+    background: rgba(18, 18, 26, 0.8);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     height: 56px;
     flex-shrink: 0;
 }
@@ -936,8 +974,10 @@ img {
 .editor-panel {
     width: 440px;
     min-width: 440px;
-    background: var(--bg-secondary);
-    border-right: 1px solid var(--border);
+    background: rgba(18, 18, 26, 0.9);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-right: 1px solid rgba(255, 255, 255, 0.06);
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
@@ -996,8 +1036,10 @@ img {
     align-items: center;
     justify-content: space-between;
     padding: 14px 16px;
-    background: var(--bg-glass);
-    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: var(--radius-sm);
     cursor: pointer;
     transition: all var(--transition);
@@ -1089,6 +1131,28 @@ img {
 .form-group input::placeholder,
 .form-group textarea::placeholder {
     color: var(--text-muted);
+}
+
+.form-group select {
+    background: #1a1a28;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%238888a0' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 36px;
+}
+
+.form-group select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.form-group select option {
+    background: #1a1a28;
+    color: #f0f0f5;
+    padding: 10px;
 }
 
 textarea {
@@ -1569,6 +1633,219 @@ textarea {
 
 .resume-page.template-bold .resume-tpl-entry-company {
     color: #db2777;
+}
+
+/* Template: ELEGANT — Warm rose, serif typography, understated sophistication */
+.resume-page.template-elegant {
+    font-family: 'Playfair Display', serif;
+}
+
+.resume-page.template-elegant .resume-tpl-header {
+    background: linear-gradient(135deg, #831843, #9f1239);
+    padding: 36px 40px;
+    color: #fff;
+}
+
+.resume-page.template-elegant .resume-tpl-name {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.resume-page.template-elegant .resume-tpl-title {
+    font-style: italic;
+    opacity: 0.9;
+    font-weight: 400;
+    margin-top: 4px;
+}
+
+.resume-page.template-elegant .resume-tpl-contact {
+    margin-top: 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    opacity: 0.85;
+}
+
+.resume-page.template-elegant .resume-tpl-body {
+    padding: 32px 40px;
+}
+
+.resume-page.template-elegant .resume-tpl-section-title {
+    color: #831843;
+    border-bottom: 2px solid #fce7f3;
+    font-size: 14px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-family: 'Inter', sans-serif;
+}
+
+.resume-page.template-elegant .resume-tpl-skill {
+    background: #fdf2f8;
+    color: #831843;
+    border: 1px solid #fce7f3;
+}
+
+.resume-page.template-elegant .resume-tpl-entry-company {
+    color: #be185d;
+    font-family: 'Inter', sans-serif;
+}
+
+.resume-page.template-elegant .resume-tpl-summary,
+.resume-page.template-elegant .resume-tpl-entry-desc {
+    font-family: 'Inter', sans-serif;
+}
+
+/* Template: TECH — Green terminal, monospace, developer-focused */
+.resume-page.template-tech {
+    font-family: 'Inter', sans-serif;
+    border: 2px solid #059669;
+}
+
+.resume-page.template-tech .resume-tpl-header {
+    background: #022c22;
+    padding: 32px 40px;
+    color: #d1fae5;
+}
+
+.resume-page.template-tech .resume-tpl-name {
+    font-family: 'Courier New', monospace;
+    font-size: 26px;
+    font-weight: 700;
+    color: #34d399;
+}
+
+.resume-page.template-tech .resume-tpl-title {
+    font-family: 'Courier New', monospace;
+    color: #6ee7b7;
+    font-size: 13px;
+}
+
+.resume-page.template-tech .resume-tpl-contact {
+    margin-top: 12px;
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    color: #a7f3d0;
+}
+
+.resume-page.template-tech .resume-tpl-body {
+    padding: 28px 40px;
+    background: #fff;
+}
+
+.resume-page.template-tech .resume-tpl-section-title {
+    color: #059669;
+    border-bottom: 2px solid #d1fae5;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.resume-page.template-tech .resume-tpl-section-title::before {
+    content: '> ';
+    color: #34d399;
+}
+
+.resume-page.template-tech .resume-tpl-skill {
+    background: #ecfdf5;
+    color: #047857;
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    border: 1px solid #a7f3d0;
+}
+
+.resume-page.template-tech .resume-tpl-entry-company {
+    color: #059669;
+    font-family: 'Courier New', monospace;
+}
+
+/* Template: COMPACT — Two-column teal, maximizes space */
+.resume-page.template-compact {
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    flex-direction: row;
+    font-size: 12px;
+}
+
+.resume-page.template-compact .resume-tpl-sidebar {
+    width: 35%;
+    background: #0c4a6e;
+    color: #e0f2fe;
+    padding: 28px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.resume-page.template-compact .resume-tpl-sidebar .resume-tpl-name {
+    font-size: 20px;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.2;
+}
+
+.resume-page.template-compact .resume-tpl-sidebar .resume-tpl-title {
+    font-size: 12px;
+    color: #7dd3fc;
+    margin-top: 2px;
+}
+
+.resume-page.template-compact .resume-tpl-sidebar .resume-tpl-contact {
+    font-size: 10px;
+    margin-top: 8px;
+}
+
+.resume-page.template-compact .resume-tpl-sidebar .resume-tpl-contact span {
+    display: block;
+    margin-bottom: 6px;
+    color: #bae6fd;
+}
+
+.resume-page.template-compact .resume-tpl-sidebar .resume-tpl-section-title {
+    color: #7dd3fc;
+    border-bottom: 1px solid rgba(125, 211, 252, 0.3);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.resume-page.template-compact .resume-tpl-sidebar .resume-tpl-skill {
+    background: rgba(255, 255, 255, 0.1);
+    color: #e0f2fe;
+    font-size: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.resume-page.template-compact .resume-tpl-sidebar .resume-tpl-lang {
+    color: #bae6fd;
+    font-size: 11px;
+}
+
+.resume-page.template-compact .resume-tpl-main {
+    flex: 1;
+    padding: 28px 24px;
+    background: #fff;
+}
+
+.resume-page.template-compact .resume-tpl-main .resume-tpl-section-title {
+    color: #0c4a6e;
+    border-bottom: 2px solid #e0f2fe;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.resume-page.template-compact .resume-tpl-main .resume-tpl-entry-company {
+    color: #0284c7;
+}
+
+.resume-page.template-compact .resume-tpl-main .resume-tpl-entry-role {
+    font-size: 13px;
+}
+
+.resume-page.template-compact .resume-tpl-main .resume-tpl-entry-desc {
+    font-size: 11px;
 }
 
 /* ===== MODAL ===== */
