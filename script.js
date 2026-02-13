@@ -728,6 +728,7 @@ function initScrollAnimations() {
 // ===== INIT =====
 document.addEventListener('DOMContentLoaded', () => {
     checkRegion();
+    initHeroCarousel();
     animateCounters();
     initScrollAnimations();
 
@@ -741,6 +742,27 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key === 'Escape') closePremiumModal();
     });
 });
+
+// ===== HERO CAROUSEL =====
+function initHeroCarousel() {
+    const slides = document.querySelectorAll('.hero-slide');
+    if (!slides.length) return;
+
+    let currentSlide = 0;
+    setInterval(() => {
+        // Simple auto-rotation
+        slides[currentSlide].classList.remove('active');
+        currentSlide = (currentSlide + 1) % slides.length;
+        slides[currentSlide].classList.add('active');
+    }, 4000);
+}
+
+function updateHeroPreview(name) {
+    const displays = document.querySelectorAll('.hero-slide .mini-name');
+    displays.forEach(el => {
+        el.textContent = name.trim() || 'Your Name';
+    });
+}
 
 // ===== REGION LOGIC =====
 function checkRegion() {
@@ -764,6 +786,5 @@ function applyRegionSettings(region) {
         regionFields.forEach(el => el.style.display = 'flex');
     } else {
         regionFields.forEach(el => el.style.display = 'none');
-        // Clear values if hiding? detailed choice, but for now we keep data just hide input
     }
 }
