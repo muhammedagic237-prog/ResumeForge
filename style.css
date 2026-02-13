@@ -585,62 +585,90 @@ img {
     margin-top: 8px;
 }
 
-/* ===== TEMPLATE SHOWCASE (Real Previews) ===== */
+/* ===== TEMPLATE SHOWCASE (Gallery Mode) ===== */
 .templates-showcase {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
-    margin-top: 40px;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 60px;
+    /* More space for larger items */
+    margin-top: 60px;
+    padding: 0 20px;
 }
 
 .template-preview-card {
-    background: #fff;
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
+    background: transparent;
+    border-radius: 0;
+    overflow: visible;
+    box-shadow: none;
+    transition: none;
     cursor: pointer;
-    border: 1px solid #e2e8f0;
+    border: none;
     position: relative;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    /* Center the paper */
 }
 
 .template-preview-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-    border-color: var(--primary);
+    transform: none;
+    box-shadow: none;
+    border-color: transparent;
 }
 
-.premium-card {
-    border-color: rgba(251, 191, 36, 0.2);
+/* The "Paper" Container */
+.template-thumb {
+    height: 380px;
+    /* Taller to fit scaled up resume */
+    width: 100%;
+    background: transparent;
+    position: relative;
+    overflow: visible;
+    display: flex;
+    justify-content: center;
+    perspective: 1000px;
+    /* For 3D lifts */
 }
 
-.premium-card:hover {
-    border-color: var(--warning);
-    box-shadow: 0 8px 30px rgba(251, 191, 36, 0.15);
+/* The Actual Mini DOM Resume */
+.mini-resume {
+    /* Scale logic handled in specific template block or use common override */
+    transform: scale(0.42);
+    /* Default was 0.25, now much bigger */
+    transform-origin: top center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    /* Subtle paper shadow */
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    /* Ensure styles from index.html (absolute positioning) don't break centering if used there */
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    margin-bottom: -150px;
+    /* Offset the scaling white space */
+}
+
+.template-preview-card:hover .mini-resume {
+    transform: scale(0.45) translateY(-15px);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+    /* High lift */
+    z-index: 10;
 }
 
 .premium-badge-card {
     position: absolute;
-    top: 8px;
-    right: 8px;
-    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    top: -10px;
+    right: 10px;
+    background: #fbbf24;
     color: #000;
-    font-size: 0.65rem;
+    font-size: 0.75rem;
     font-weight: 700;
-    padding: 3px 8px;
+    padding: 4px 12px;
     border-radius: 20px;
-    z-index: 2;
+    z-index: 20;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.template-thumb {
-    height: 300px;
-    /* Taller for real preview */
-    background: #f1f5f9;
-    position: relative;
-    overflow: hidden;
-}
+
 
 /* Real Resume Preview Scaling */
 .template-thumb .mini-resume {
