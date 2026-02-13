@@ -543,6 +543,58 @@ img {
     line-height: 1.6;
 }
 
+/* ===== TEMPLATE LIST MODAL ===== */
+.list-modal-content {
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    padding: 30px;
+}
+
+.template-list-scroll {
+    max-height: 60vh;
+    overflow-y: auto;
+    margin-top: 20px;
+    padding-right: 5px;
+    /* For scrollbar */
+}
+
+.template-list-simple {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+}
+
+.template-list-simple li {
+    padding: 12px 16px;
+    border-bottom: 1px solid #f1f5f9;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 500;
+    color: var(--text-primary);
+    transition: all 0.2s;
+    border-radius: 8px;
+}
+
+.template-list-simple li:last-child {
+    border-bottom: none;
+}
+
+.template-list-simple li:hover {
+    background: #f8fafc;
+    color: var(--primary);
+    transform: translateX(5px);
+}
+
+.gold-star {
+    color: #ffd700;
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.4);
+    font-size: 1.1rem;
+}
+
 /* ===== REGION MODAL ===== */
 .region-modal-content {
     max-width: 600px;

@@ -35,6 +35,32 @@ function startBuilder(template) {
     updatePreview();
 }
 
+// ===== TEMPLATE LIST MODAL =====
+function openTemplateListModal() {
+    document.getElementById('template-list-modal').classList.add('active');
+}
+
+function closeTemplateListModal() {
+    document.getElementById('template-list-modal').classList.remove('active');
+}
+
+function selectTemplate(template) {
+    closeTemplateListModal();
+    startBuilder(template);
+}
+
+// Close template list modal on outside click
+document.getElementById('template-list-modal').addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) closeTemplateListModal();
+});
+
+// Escape key closes modal
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        closeTemplateListModal();
+    }
+});
+
 function openAllSections() {
     document.querySelectorAll('.section-toggle').forEach(t => t.classList.add('active'));
     document.querySelectorAll('.section-content').forEach(c => c.classList.add('open'));

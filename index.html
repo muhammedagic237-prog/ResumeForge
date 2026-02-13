@@ -57,7 +57,7 @@
             </div>
             <div class="landing-nav-links">
                 <a href="#features">Features</a>
-                <a href="#templates">Templates</a>
+                <a href="#" onclick="openTemplateListModal()">Templates</a>
                 <a href="#pricing">Pricing</a>
                 <button class="btn-primary btn-nav" onclick="startBuilder()">Build My Resume</button>
             </div>
@@ -650,6 +650,31 @@
     </div>
 
     <!-- Template Selection Modal Removed -->
+
+    <!-- Template List Modal -->
+    <div id="template-list-modal" class="modal-overlay">
+        <div class="modal-content list-modal-content">
+            <button class="modal-close" onclick="closeTemplateListModal()">×</button>
+            <h2>Select a Template</h2>
+            <div class="template-list-scroll">
+                <ul class="template-list-simple">
+                    <!-- Free -->
+                    <li onclick="selectTemplate('modern')">Modern</li>
+                    <li onclick="selectTemplate('minimal')">Minimal</li>
+                    <li onclick="selectTemplate('creative')">Creative</li>
+
+                    <!-- Premium -->
+                    <li onclick="selectTemplate('executive')">Executive <span class="gold-star">⭐</span></li>
+                    <li onclick="selectTemplate('bold')">Bold <span class="gold-star">⭐</span></li>
+                    <li onclick="selectTemplate('elegant')">Elegant <span class="gold-star">⭐</span></li>
+                    <li onclick="selectTemplate('professional')">Professional <span class="gold-star">⭐</span></li>
+                    <li onclick="selectTemplate('tech')">Tech <span class="gold-star">⭐</span></li>
+                    <li onclick="selectTemplate('corporate')">Corporate <span class="gold-star">⭐</span></li>
+                    <li onclick="selectTemplate('academic')">Academic <span class="gold-star">⭐</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
 
     <!-- Premium Modal -->
     <div class="modal-overlay" id="premium-modal">
