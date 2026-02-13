@@ -12,10 +12,6 @@ const PREMIUM_TEMPLATES = ['elegant', 'tech', 'compact', 'executive', 'bold', 'c
 // ===== NAVIGATION =====
 function startBuilder(template) {
     if (template) {
-        if (PREMIUM_TEMPLATES.includes(template) && !isPremiumUnlocked) {
-            showPremiumModal();
-            return;
-        }
         currentTemplate = template;
         document.getElementById('template-select').value = template;
     }

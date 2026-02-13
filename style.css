@@ -268,11 +268,22 @@ img {
 }
 
 .hero h1 {
+    font-family: 'Playfair Display', serif;
     font-size: 3.5rem;
-    font-weight: 800;
-    line-height: 1.1;
-    margin-bottom: 20px;
+    line-height: 1.2;
+    margin-bottom: 24px;
+    color: var(--text-primary);
     animation: fadeInUp 0.6s ease 0.1s both;
+}
+
+.free-subtext {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    color: var(--text-muted);
+    font-weight: 400;
+    font-style: italic;
+    display: block;
+    margin-top: 5px;
 }
 
 .gradient-text {

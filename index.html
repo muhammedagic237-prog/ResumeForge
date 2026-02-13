@@ -58,7 +58,7 @@
             <div class="landing-nav-links">
                 <a href="#features">Features</a>
                 <a href="#" onclick="openTemplateListModal()">Templates</a>
-                <a href="#pricing">Pricing</a>
+                <!-- <a href="#pricing">Pricing</a> -->
                 <button class="btn-primary btn-nav" onclick="startBuilder()">Build My Resume</button>
             </div>
             <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
@@ -80,7 +80,8 @@
             </div>
             <div class="hero-content">
                 <div class="hero-badge">✨ #1 Free Resume Builder in 2026</div>
-                <h1>Build a Resume That <span class="gradient-text">Gets You Hired</span></h1>
+                <h1>Build a Resume That <span class="gradient-text">Gets You Hired</span> <br><span
+                        class="free-subtext">(it's free and will be)</span></h1>
                 <p class="hero-subtitle">Create stunning, ATS-optimized resumes in minutes. Choose from premium
                     templates, customize every detail, and download as PDF — completely free.</p>
                 <div class="hero-cta">
@@ -199,77 +200,7 @@
             </div>
         </section>
 
-        <!-- Pricing Section -->
-        <section id="pricing" class="pricing-section">
-            <div class="section-header">
-                <span class="section-badge">Pricing</span>
-                <h2>Simple, Transparent <span class="gradient-text">Pricing</span></h2>
-                <p>Start free. Upgrade when you need more power.</p>
-            </div>
-            <div class="pricing-cards">
-                <div class="pricing-card">
-                    <div class="pricing-tier">Free</div>
-                    <div class="pricing-amount"><span class="price-currency">$</span><span class="price-value">0</span>
-                    </div>
-                    <p class="pricing-desc">Everything you need to get started</p>
-                    <ul class="pricing-features">
-                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#34d399"
-                                stroke-width="3">
-                                <polyline points="20 6 9 17 4 12" />
-                            </svg> 3 Free Templates</li>
-                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#34d399"
-                                stroke-width="3">
-                                <polyline points="20 6 9 17 4 12" />
-                            </svg> Unlimited PDF Downloads</li>
-                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#34d399"
-                                stroke-width="3">
-                                <polyline points="20 6 9 17 4 12" />
-                            </svg> Live Preview</li>
-                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#34d399"
-                                stroke-width="3">
-                                <polyline points="20 6 9 17 4 12" />
-                            </svg> Auto-Save</li>
-                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#34d399"
-                                stroke-width="3">
-                                <polyline points="20 6 9 17 4 12" />
-                            </svg> No Watermark</li>
-                    </ul>
-                    <button class="btn-primary btn-pricing" onclick="startBuilder()">Get Started Free</button>
-                </div>
-                <div class="pricing-card pricing-card-pro">
-                    <div class="popular-badge">🔥 Best Value</div>
-                    <div class="pricing-tier">Lifetime Pro</div>
-                    <div class="pricing-amount"><span class="price-currency">$</span><span
-                            class="price-value">4.99</span>
-                    </div>
-                    <p class="pricing-desc">One-time payment • Lifetime access</p>
-                    <ul class="pricing-features">
-                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#34d399"
-                                stroke-width="3">
-                                <polyline points="20 6 9 17 4 12" />
-                            </svg> All 10+ Premium Templates</li>
-                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#34d399"
-                                stroke-width="3">
-                                <polyline points="20 6 9 17 4 12" />
-                            </svg> Lifetime Updates & New Templates</li>
-                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#34d399"
-                                stroke-width="3">
-                                <polyline points="20 6 9 17 4 12" />
-                            </svg> Custom Color Themes</li>
-                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#34d399"
-                                stroke-width="3">
-                                <polyline points="20 6 9 17 4 12" />
-                            </svg> Multiple Resumes</li>
-                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#34d399"
-                                stroke-width="3">
-                                <polyline points="20 6 9 17 4 12" />
-                            </svg> Priority Support</li>
-                    </ul>
-                    <button class="btn-primary btn-pricing btn-pricing-pro" onclick="unlockPremium()">Unlock Lifetime
-                        Access — $4.99</button>
-                </div>
-            </div>
-        </section>
+        <!-- Pricing Section Removed -->
 
         <!-- Footer -->
         <footer class="landing-footer">
@@ -290,7 +221,6 @@
                 <div class="footer-links">
                     <a href="#features">Features</a>
                     <a href="#templates">Templates</a>
-                    <a href="#pricing">Pricing</a>
                 </div>
             </div>
             <div class="footer-bottom">
@@ -658,12 +588,12 @@
             <h2>Select a Template</h2>
             <div class="template-list-scroll">
                 <ul class="template-list-simple">
-                    <!-- Free -->
-                    <li onclick="selectTemplate('modern')">Modern</li>
-                    <li onclick="selectTemplate('minimal')">Minimal</li>
-                    <li onclick="selectTemplate('creative')">Creative</li>
+                    <!-- Free (Now starred) -->
+                    <li onclick="selectTemplate('modern')">Modern <span class="gold-star">⭐</span></li>
+                    <li onclick="selectTemplate('minimal')">Minimal <span class="gold-star">⭐</span></li>
+                    <li onclick="selectTemplate('creative')">Creative <span class="gold-star">⭐</span></li>
 
-                    <!-- Premium -->
+                    <!-- Premium (Free) -->
                     <li onclick="selectTemplate('executive')">Executive <span class="gold-star">⭐</span></li>
                     <li onclick="selectTemplate('bold')">Bold <span class="gold-star">⭐</span></li>
                     <li onclick="selectTemplate('elegant')">Elegant <span class="gold-star">⭐</span></li>
@@ -673,28 +603,6 @@
                     <li onclick="selectTemplate('academic')">Academic <span class="gold-star">⭐</span></li>
                 </ul>
             </div>
-        </div>
-    </div>
-
-    <!-- Premium Modal -->
-    <div class="modal-overlay" id="premium-modal">
-        <div class="modal-content">
-            <button class="modal-close" onclick="closePremiumModal()">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="18" y1="6" x2="6" y2="18" />
-                    <line x1="6" y1="6" x2="18" y2="18" />
-                </svg>
-            </button>
-            <div class="modal-icon">⭐</div>
-            <h2>Unlock Premium Templates</h2>
-            <p>Get access to all premium templates designed to make your resume stand out from the crowd.</p>
-            <div class="modal-price">
-                <span class="modal-price-old">$9.99</span>
-                <span class="modal-price-new">$4.99</span>
-                <span class="modal-price-note">one-time payment</span>
-            </div>
-            <button class="btn-primary btn-modal" onclick="unlockPremium()">Unlock All Premium Templates</button>
-            <p class="modal-guarantee">30-day money-back guarantee • Instant access</p>
         </div>
     </div>
 
