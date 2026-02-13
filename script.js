@@ -4,10 +4,8 @@ let skills = [];
 let experienceEntries = [];
 let educationEntries = [];
 let languageEntries = [];
-let isPremiumUnlocked = false;
+// Premium features are now free by default
 let saveTimeout = null;
-
-const PREMIUM_TEMPLATES = ['elegant', 'tech', 'compact', 'executive', 'bold', 'corporate', 'artistic', 'professional', 'academic', 'classic'];
 
 // ===== NAVIGATION =====
 function startBuilder(template) {
@@ -664,7 +662,8 @@ function loadFromStorage() {
         educationEntries = data.education || [];
         skills = data.skills || [];
         languageEntries = data.languages || [];
-        isPremiumUnlocked = data.isPremiumUnlocked || false;
+        languageEntries = data.languages || [];
+        // isPremiumUnlocked = data.isPremiumUnlocked || false;
 
         renderExperienceEntries();
         renderEducationEntries();
@@ -683,23 +682,6 @@ function showSaveIndicator() {
     const indicator = document.getElementById('save-indicator');
     indicator.classList.add('visible');
     setTimeout(() => indicator.classList.remove('visible'), 2000);
-}
-
-// ===== PREMIUM MODAL =====
-function showPremiumModal() {
-    document.getElementById('premium-modal').classList.add('active');
-}
-
-function closePremiumModal() {
-    document.getElementById('premium-modal').classList.remove('active');
-}
-
-function unlockPremium() {
-    // In production, this would connect to Stripe/payment
-    isPremiumUnlocked = true;
-    closePremiumModal();
-    showToast('⭐', 'Premium templates unlocked!');
-    triggerSave();
 }
 
 // ===== TOAST =====
@@ -751,41 +733,21 @@ function initScrollAnimations() {
 // ===== INIT =====
 document.addEventListener('DOMContentLoaded', () => {
     checkRegion();
-    initHeroCarousel();
+    checkRegion();
+    // initHeroCarousel(); // Removed
+    animateCounters();
     animateCounters();
     initScrollAnimations();
 
     // Close modal on overlay click
-    document.getElementById('premium-modal').addEventListener('click', (e) => {
-        if (e.target === e.currentTarget) closePremiumModal();
-    });
+    // Close modal on overlay click
 
     // Escape key closes modal
+    // Escape key closes modal
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closePremiumModal();
+        // if (e.key === 'Escape') closePremiumModal(); // Removed as premium modal is gone
     });
 });
-
-// ===== HERO CAROUSEL =====
-function initHeroCarousel() {
-    const slides = document.querySelectorAll('.hero-slide');
-    if (!slides.length) return;
-
-    let currentSlide = 0;
-    setInterval(() => {
-        // Simple auto-rotation
-        slides[currentSlide].classList.remove('active');
-        currentSlide = (currentSlide + 1) % slides.length;
-        slides[currentSlide].classList.add('active');
-    }, 4000);
-}
-
-function updateHeroPreview(name) {
-    const displays = document.querySelectorAll('.hero-slide .mini-name');
-    displays.forEach(el => {
-        el.textContent = name.trim() || 'Your Name';
-    });
-}
 
 // ===== REGION LOGIC =====
 function checkRegion() {
