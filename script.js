@@ -19,6 +19,7 @@ function startBuilder(template) {
         currentTemplate = template;
         document.getElementById('template-select').value = template;
     }
+
     document.getElementById('landing-page').classList.add('hidden');
     document.getElementById('builder-app').classList.remove('hidden');
 
