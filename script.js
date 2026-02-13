@@ -332,6 +332,14 @@ function getFormData() {
         email: val('email'),
         phone: val('phone'),
         location: val('location'),
+
+        // New Personal Details
+        dob: val('dob'),
+        pob: val('pob'),
+        nationality: val('nationality'),
+        marital: val('marital'),
+        driving: val('driving'),
+
         website: val('website'),
         summary: val('summary'),
         experience: experienceEntries.filter(e => e.role || e.company),
@@ -356,6 +364,14 @@ function renderContactItems(data) {
     if (data.email) items.push(`📧 ${esc(data.email)}`);
     if (data.phone) items.push(`📱 ${esc(data.phone)}`);
     if (data.location) items.push(`📍 ${esc(data.location)}`);
+
+    // Personal Details (Region Specific)
+    if (data.dob) items.push(`📅 Born: ${esc(data.dob)}`);
+    if (data.pob) items.push(`🏙️ ${esc(data.pob)}`);
+    if (data.nationality) items.push(`🏳️ ${esc(data.nationality)}`);
+    if (data.marital) items.push(`💍 ${esc(data.marital)}`);
+    if (data.driving) items.push(`🚗 License: ${esc(data.driving)}`);
+
     if (data.website) items.push(`🔗 ${esc(data.website)}`);
     return items.map(i => `<span>${i}</span>`).join('');
 }
@@ -566,14 +582,20 @@ function saveToStorage() {
         email: val('email'),
         phone: val('phone'),
         location: val('location'),
+
+        // New Personal Details
+        dob: val('dob'),
+        pob: val('pob'),
+        nationality: val('nationality'),
+        marital: val('marital'),
+        driving: val('driving'),
+
         website: val('website'),
         summary: val('summary'),
-        experience: experienceEntries,
-        education: educationEntries,
+        experience: experienceEntries.filter(e => e.role || e.company),
+        education: educationEntries.filter(e => e.degree || e.school),
         skills: skills,
-        languages: languageEntries,
-        skills: skills,
-        languages: languageEntries,
+        languages: languageEntries.filter(e => e.language),
         isPremiumUnlocked: isPremiumUnlocked,
         accentColor: document.getElementById('accentColor')?.value,
         textColor: document.getElementById('textColor')?.value,
@@ -599,6 +621,13 @@ function loadFromStorage() {
         setVal('email', data.email);
         setVal('phone', data.phone);
         setVal('location', data.location);
+
+        setVal('dob', data.dob);
+        setVal('pob', data.pob);
+        setVal('nationality', data.nationality);
+        setVal('marital', data.marital);
+        setVal('driving', data.driving);
+
         setVal('website', data.website);
         setVal('location', data.location);
         setVal('website', data.website);
@@ -698,6 +727,7 @@ function initScrollAnimations() {
 
 // ===== INIT =====
 document.addEventListener('DOMContentLoaded', () => {
+    checkRegion();
     animateCounters();
     initScrollAnimations();
 
@@ -711,3 +741,29 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key === 'Escape') closePremiumModal();
     });
 });
+
+// ===== REGION LOGIC =====
+function checkRegion() {
+    const region = localStorage.getItem('resume_region');
+    if (!region) {
+        document.getElementById('region-modal').classList.add('active');
+    } else {
+        applyRegionSettings(region);
+    }
+}
+
+function setRegion(region) {
+    localStorage.setItem('resume_region', region);
+    document.getElementById('region-modal').classList.remove('active');
+    applyRegionSettings(region);
+}
+
+function applyRegionSettings(region) {
+    const regionFields = document.querySelectorAll('.region-specific');
+    if (region === 'eu_asia') {
+        regionFields.forEach(el => el.style.display = 'flex');
+    } else {
+        regionFields.forEach(el => el.style.display = 'none');
+        // Clear values if hiding? detailed choice, but for now we keep data just hide input
+    }
+}

@@ -19,7 +19,28 @@
 
 <body>
 
-    <!-- ============ LANDING PAGE ============ -->
+    <!-- REGION SELECTION MODAL -->
+    <div id="region-modal" class="modal-overlay active" style="z-index: 9999;">
+        <div class="modal-content region-modal-content">
+            <div class="modal-icon">🌍</div>
+            <h2>Select Your Region</h2>
+            <p>To ensure your resume meets local standards, please select where you are applying.</p>
+            <div class="region-options">
+                <button class="region-btn" onclick="setRegion('global')">
+                    <span class="region-emoji">🇺🇸 🇬🇧 🇦🇺 🇨🇦</span>
+                    <strong>US / UK / Canada / Australia</strong>
+                    <span class="region-desc">Hides Age, Marital Status, Photo (Anti-Discrimination)</span>
+                </button>
+                <button class="region-btn" onclick="setRegion('eu_asia')">
+                    <span class="region-emoji">🇪🇺 Asian 🌍</span>
+                    <strong>Europe / Asia / Middle East</strong>
+                    <span class="region-desc">Shows Age, Nationality, Marital Status (Standard)</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- LANDING PAGE -->
     <div id="landing-page" class="landing-page">
         <nav class="landing-nav">
             <div class="landing-logo">
@@ -210,11 +231,18 @@
                 <!-- FREE TEMPLATES -->
                 <div class="template-preview-card" onclick="startBuilder('modern')">
                     <div class="template-thumb modern-thumb">
-                        <div class="tt-header"></div>
-                        <div class="tt-body">
-                            <div class="tt-line w70"></div>
-                            <div class="tt-line w90"></div>
-                            <div class="tt-line w60"></div>
+                        <div class="mini-resume modern">
+                            <div class="mini-header"></div>
+                            <div class="mini-body">
+                                <div class="mini-line w50" style="margin-bottom:10px;"></div>
+                                <div class="mini-line w80"></div>
+                                <div class="mini-line w90"></div>
+                                <div class="mini-line w60"></div>
+                                <br>
+                                <div class="mini-line w40" style="margin-bottom:10px;"></div>
+                                <div class="mini-line w90"></div>
+                                <div class="mini-line w80"></div>
+                            </div>
                         </div>
                     </div>
                     <div class="template-info">
@@ -293,11 +321,14 @@
                 <div class="template-preview-card premium-card" onclick="startBuilder('executive')">
                     <div class="premium-badge-card">⭐ Premium</div>
                     <div class="template-thumb executive-thumb">
-                        <div class="tt-header"></div>
-                        <div class="tt-body">
-                            <div class="tt-line w75"></div>
-                            <div class="tt-line w90"></div>
-                            <div class="tt-line w65"></div>
+                        <div class="mini-resume" style="background:#fff;">
+                            <div style="border-bottom: 2px solid #b45309; height: 60px; margin-bottom: 20px;"></div>
+                            <div class="mini-body">
+                                <div class="mini-line w50" style="background:#b45309;"></div>
+                                <br>
+                                <div class="mini-line w90"></div>
+                                <div class="mini-line w80"></div>
+                            </div>
                         </div>
                     </div>
                     <div class="template-info">
@@ -667,6 +698,36 @@
                                         oninput="updatePreview()">
                                 </div>
                             </div>
+                            <!-- Region Specific Details (Hidden by default) -->
+                            <div class="form-row input-group region-specific" style="display:none;">
+                                <div class="form-group">
+                                    <label>Date of Birth</label>
+                                    <input type="text" id="dob" placeholder="DD/MM/YYYY" oninput="updatePreview()">
+                                </div>
+                                <div class="form-group">
+                                    <label>Place of Birth</label>
+                                    <input type="text" id="pob" placeholder="City, Country" oninput="updatePreview()">
+                                </div>
+                            </div>
+                            <div class="form-row input-group region-specific" style="display:none;">
+                                <div class="form-group">
+                                    <label>Nationality</label>
+                                    <input type="text" id="nationality" placeholder="e.g. German"
+                                        oninput="updatePreview()">
+                                </div>
+                                <div class="form-group">
+                                    <label>Marital Status</label>
+                                    <input type="text" id="marital" placeholder="e.g. Single" oninput="updatePreview()">
+                                </div>
+                            </div>
+                            <div class="form-row region-specific" style="display:none;">
+                                <div class="form-group">
+                                    <label>Driving License</label>
+                                    <input type="text" id="driving" placeholder="e.g. Class B"
+                                        oninput="updatePreview()">
+                                </div>
+                            </div>
+
                             <div class="form-row">
                                 <div class="form-group">
                                     <label>Professional Summary</label>
